@@ -1,0 +1,271 @@
+SET SERVEROUTPUT ON;
+
+DECLARE
+    header1   CONSTANT VARCHAR2(20) := 'Logarithm from 2 is ';
+    header2   CONSTANT VARCHAR2(20) := 'Logarithm from 3 is ';
+    arg       INTEGER := 2;
+BEGIN
+    dbms_output.put_line(header1 || ln(arg));
+    arg := arg + 1;
+    dbms_output.put_line(header2 || ln(arg));
+END;
+
+COMMIT;
+
+----------
+DECLARE
+---GLOBAL VARIABLES
+    var1   NUMBER := 100;
+    var2   NUMBER := 200;
+BEGIN
+    dbms_output.put_line('EXTERNAL VARIABLE var1 =' || var1);
+    dbms_output.put_line('EXTERNAL VARIABLE var2 =' || var2);
+    DECLARE
+        var1   NUMBER := 199;
+        var2   NUMBER := 299;
+    BEGIN
+        dbms_output.put_line('INTERNAL VARIABLE var1 =' || var1);
+        dbms_output.put_line('INTERNAL VARIABLE var2 =' || var2);
+    END;
+
+    dbms_output.put_line('EXTERNAL VARIABLE var1 =' || var1);
+END;
+
+COMMIT;
+
+DECLARE
+    pi       CONSTANT NUMBER := 3.14159265;
+    radius   NUMBER(5, 2);
+    area     NUMBER(10, 2);
+BEGIN
+    radius := 15;
+    area := pi * radius * radius;
+    dbms_output.put_line('Area = '
+                         || area
+                         || ' mm');
+END;
+
+COMMIT;
+
+---- IF ELSE CASE 
+
+DECLARE
+    lambda   NUMBER;
+    text1    VARCHAR2(30) := 'INFRARED';
+    text2    VARCHAR2(30) := 'SUN LIGHT';
+    text3    VARCHAR2(30) := 'ULTRAVIOLET LIGHT';
+BEGIN
+    lambda := &input_data;
+    dbms_output.put_line(' ');
+    IF ( lambda > 0.65 ) THEN
+        dbms_output.put_line(text1);
+    ELSIF ( lambda < 0.41 ) THEN
+        dbms_output.put_line(text3);
+    ELSE
+        dbms_output.put_line(text2);
+    END IF;
+
+END;
+
+COMMIT;
+
+DECLARE
+    lambda      NUMBER; -- wave length
+    text1       VARCHAR(20) := 'Infrared';
+    text2       VARCHAR(30) := 'Sun Light';
+    text3       VARCHAR(30) := 'Untraviolet';
+    decision    BOOLEAN;
+    decision1   BOOLEAN;
+BEGIN
+    lambda := &input_data;
+    dbms_output.put_line('');
+    decision := lambda > 0.65;
+    decision1 := lambda < 0.41;
+    dbms_output.put_line(lambda);
+    IF ( decision ) THEN
+        dbms_output.put_line(text1);
+        dbms_output.put_line(lambda);
+    ELSIF ( decision1 ) THEN
+        dbms_output.put_line(text3);
+    ELSE
+        dbms_output.put_line(text2);
+    END IF;
+
+END;
+
+DECLARE
+    text0   VARCHAR2(20);
+    text1   VARCHAR2(30) := 'INFRARED RADIATION';
+    text2   VARCHAR2(30) := 'SUNLIGHT RADIATION';
+    text3   VARCHAR2(30) := 'ULTRAVIOLET RADIATION';
+    text4   VARCHAR2(30) := 'NUCLEAR RADIATION';
+    text5   VARCHAR2(30) := 'UNKNOWN RADIATION';
+BEGIN
+    text0 := &input_data;
+    CASE text0
+        WHEN '1' THEN
+            dbms_output.put_line(text1);
+        WHEN '2' THEN
+            dbms_output.put_line(text2);
+        WHEN '3' THEN
+            dbms_output.put_line(text3);
+        WHEN '4' THEN
+            dbms_output.put_line(text4);
+        ELSE
+            dbms_output.put_line(text5);
+    END CASE;
+
+END;
+
+DECLARE
+    lambda   NUMBER;
+    text1    VARCHAR2(30) := 'INFRARED RADIATION';
+    text2    VARCHAR2(30) := 'SUNLIGHT RADIATION';
+    text3    VARCHAR2(30) := 'ULTRAVIOLET RADIATION';
+    answer   VARCHAR(30);
+BEGIN
+    lambda := &input_data;
+    answer :=
+        CASE
+            WHEN ( lambda > 10 ) THEN
+                text1
+            WHEN ( lambda < 5 ) THEN
+                text3
+            ELSE text2
+        END;
+
+    dbms_output.put_line(answer);
+END;
+
+---- LOOPS WHILE FOR 
+
+DECLARE
+    x NUMBER := 1;
+BEGIN
+    LOOP
+        dbms_output.put_line(x);
+        x := x + 5;
+        IF x > 69 THEN
+            EXIT;
+        END IF;
+    END LOOP;
+
+    dbms_output.put_line('EXIT CONDITION IS ' || x);
+END;
+
+DECLARE
+    arg     NUMBER;
+    i       NUMBER;
+    limit   NUMBER := 1000;
+BEGIN
+    i := 0;
+    arg := 1;
+    LOOP
+        EXIT WHEN arg > limit;
+        arg := arg * ( i + 1 );
+        i := 1 + i;
+    END LOOP;
+
+    dbms_output.put_line('THE NUMBER IS ' || to_char(i));
+    dbms_output.put_line('FACTORIEL IS ' || to_char(arg));
+END;
+
+---WHILE
+
+DECLARE
+    counter NUMBER(2) := 1;
+BEGIN
+    WHILE counter < 17 
+    LOOP
+        dbms_output.put_line('counter IS ' || counter);
+        counter := counter + 1;
+    END LOOP;
+END;
+
+
+--- PROBLEM 1 
+
+DECLARE
+    arg     NUMBER;
+    i       NUMBER;
+    limit   NUMBER := 100;
+BEGIN
+    i := 0;
+    arg := 1;
+    LOOP
+        EXIT WHEN arg > limit;
+        arg := arg * ( i + 1 );
+        i := 1 + i;
+    END LOOP;
+
+    dbms_output.put_line('THE NUMBER IS ' || to_char(i));
+    dbms_output.put_line('FACTORIEL IS ' || to_char(arg));
+END;
+
+
+----- FOR LOOP 
+
+DECLARE
+    counter         NUMBER;
+    initial_value   NUMBER;
+    final_value     NUMBER;
+BEGIN
+    counter := 1;
+    initial_value := 1;
+    final_value := 10;
+    FOR counter IN initial_value..final_value 
+    LOOP dbms_output.put_line('COUNTER IS ' || counter);
+    END LOOP;
+
+END;
+
+
+--- REVERSE FOR LOOP 
+
+DECLARE
+    counter         NUMBER;
+    initial_value   NUMBER;
+    final_value     NUMBER;
+BEGIN
+    counter := 1;
+    initial_value := 1;
+    final_value := 10;
+    FOR counter IN REVERSE initial_value..final_value 
+    LOOP dbms_output.put_line('COUNTER IS ' || counter);
+    END LOOP;
+
+END;
+
+DECLARE
+    counter         NUMBER;
+    initial_value   NUMBER;
+    final_value     NUMBER;
+BEGIN
+    counter := 1;
+    initial_value := 1;
+    final_value := 10;
+    FOR counter IN initial_value..final_value 
+    LOOP IF ( MOD(counter, 2) = 0 ) THEN
+        dbms_output.put_line('COUNTER IS ' || counter);
+    END IF;
+    END LOOP;
+
+END;
+
+
+-- factoriel of 9 with for loop;
+
+DECLARE
+    counter   NUMBER(2);
+    arg       NUMBER;
+    limit     NUMBER := 9;
+BEGIN
+    counter := 0;
+    arg := 1;
+    FOR counter IN 1..limit 
+    LOOP
+        arg := arg * counter;
+        dbms_output.put_line('The value of the counter is :' || arg);
+    END LOOP;
+
+END;
